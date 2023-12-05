@@ -1,4 +1,3 @@
-import { off, sourceMapsEnabled } from 'process';
 import { groupByEmptyLines, parseNumberList, readData } from '../../shared.ts';
 import chalk from 'chalk';
 
