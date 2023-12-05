@@ -1,4 +1,4 @@
-import { intersection, readData, sum } from '../../shared.ts';
+import { intersection, parseNumberList, readData, sum } from '../../shared.ts';
 import chalk from 'chalk';
 
 type Card = {
@@ -44,15 +44,6 @@ function parseCard(line: string): Card {
   const winningNumbers = parseNumberList(winning, ' ');
 
   return { id, numbersIHave, winningNumbers, amount: 1 };
-}
-
-function parseNumberList(input: string, separator: string) {
-  return input
-    .trim()
-    .replaceAll('  ', ' ')
-    .split(separator)
-    .map((n) => parseInt(n))
-    .filter((n) => n !== null);
 }
 
 const answer = await day4b();

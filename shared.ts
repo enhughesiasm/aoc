@@ -66,6 +66,19 @@ export function sum(arr: number[]): number {
   );
 }
 
+export function groupByEmptyLines(inputArray: string[]): string[][] {
+  return inputArray.reduce((acc, currentValue) => {
+    if (currentValue.trim() === '') {
+      if (acc.length === 0 || acc[acc.length - 1].length > 0) {
+        acc.push([]);
+      }
+    } else {
+      acc[acc.length - 1].push(currentValue);
+    }
+    return acc;
+  }, []);
+}
+
 export function parseNumberList(input: string, separator: string) {
   return input
     .trim()
