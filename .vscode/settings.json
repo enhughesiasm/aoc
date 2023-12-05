@@ -1,0 +1,7 @@
+{
+  "[plaintext]": {
+    "editor.formatOnSave": false,
+    "files.insertFinalNewline": false
+  },
+  "files.insertFinalNewline": false
+}
