@@ -1,6 +1,11 @@
 import { numericOnly, parseNumberList, readData } from '../../shared.ts';
 import chalk from 'chalk';
 
+type Race = {
+  previousRecord: number;
+  distance: number;
+};
+
 export async function day6b(dataPath?: string) {
   const data = await readData(dataPath);
 
@@ -11,11 +16,6 @@ export async function day6b(dataPath?: string) {
   return winCount;
 }
 
-type Race = {
-  previousRecord: number;
-  distance: number;
-};
-
 function parseRace(lines: string[]): Race {
   const time = parseInt(numericOnly(lines[0].replace('Time: ', '')));
   const distance = parseInt(numericOnly(lines[1].replace('Distance: ', '')));
@@ -24,24 +24,25 @@ function parseRace(lines: string[]): Race {
 }
 
 function countWaysToWin(race: Race) {
-  let winCount = 0;
+  // the part 1 solution works here...
 
-  for (let i = 1; i < race.previousRecord; i++) {
-    if (doesRaceWin(i, race)) {
-      winCount++;
-    }
-  }
+  // but we don't need to know EVERY win, just the first win and the last win
 
-  return winCount;
-}
+  // (every solution is an upside-down parabola, so finding the two roots gives us first and last)
 
-function doesRaceWin(buttonTime: number, race: Race): boolean {
-  // buttonTime = velocity
-  const timeRemaining = race.previousRecord - buttonTime;
+  // distance = time * x - x & 2
+  // x^2 - tx - d = 0
+  const discriminant = Math.sqrt(
+    race.previousRecord * race.previousRecord - 4 * race.distance
+  );
 
-  const totalDistanceTravelled = buttonTime * timeRemaining;
+  // we can only hold the button for integer amounts of time so floor/ceil the top/bottom respectively
+  const maxRoot = Math.floor((race.previousRecord + discriminant) / 2);
+  const minRoot = Math.ceil((race.previousRecord - discriminant) / 2);
 
-  return totalDistanceTravelled > race.distance;
+  const count = maxRoot - minRoot + 1;
+
+  return count;
 }
 
 const answer = await day6b();
