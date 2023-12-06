@@ -82,7 +82,7 @@ export function groupByEmptyLines(inputArray: string[]): string[][] {
 export function parseNumberList(input: string, separator: string) {
   return input
     .trim()
-    .replaceAll('  ', ' ')
+    .replace(/\s+/g, ' ')
     .split(separator)
     .map((n) => parseInt(n))
     .filter((n) => n !== null);
