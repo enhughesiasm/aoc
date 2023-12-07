@@ -1,7 +1,10 @@
 import { groupByEmptyLines, parseNumberList, readData } from '../../shared.ts';
 import chalk from 'chalk';
 
-type SeedRange = { start: number; length: number };
+type Range = { start: number; length: number };
+
+// allow for mapping from source to direction or vice-versa
+type Direction = 'S->D' | 'D->S';
 
 type LayerMapping = {
   sourceStart: number;
@@ -15,7 +18,7 @@ type LayerMapping = {
 type Layer = LayerMapping[];
 
 type Input = {
-  seedRanges: SeedRange[];
+  seedRanges: Range[];
   layers: Layer[];
 };
 
@@ -33,7 +36,7 @@ function findLowestLocationInSeedRange(input: Input) {
   const reversedLayers = input.layers.reverse();
 
   while (true) {
-    const seed = transformInput(location, reversedLayers, 'DEST-SOURCE');
+    const seed = transformInput(location, reversedLayers, 'D->S');
     if (input.seedRanges.some((range) => isInRange(seed, range))) {
       break;
     }
@@ -43,14 +46,14 @@ function findLowestLocationInSeedRange(input: Input) {
   return location;
 }
 
-function isInRange(num: number, range: SeedRange): boolean {
+function isInRange(num: number, range: Range): boolean {
   return num >= range.start && num < range.start + range.length;
 }
 
 function transformInput(
   input: number,
   layers: Layer[],
-  dir: 'SOURCE-DEST' | 'DEST-SOURCE'
+  dir: Direction
 ): number {
   for (const layer of layers) {
     input = transformLayer(input, layer, dir);
@@ -59,20 +62,16 @@ function transformInput(
   return input;
 }
 
-function transformLayer(
-  input: number,
-  layer: Layer,
-  dir: 'SOURCE-DEST' | 'DEST-SOURCE'
-): number {
+function transformLayer(input: number, layer: Layer, dir: Direction): number {
   for (const mapping of layer) {
     const layerStart =
-      dir === 'SOURCE-DEST' ? mapping.sourceStart : mapping.destinationStart;
+      dir === 'S->D' ? mapping.sourceStart : mapping.destinationStart;
     const layerEnd =
-      dir === 'SOURCE-DEST' ? mapping.sourceEnd : mapping.destinationEnd;
+      dir === 'S->D' ? mapping.sourceEnd : mapping.destinationEnd;
 
     if (layerStart <= input && input < layerEnd) {
       const offset =
-        dir === 'SOURCE-DEST'
+        dir === 'S->D'
           ? mapping.sourceToDestOffset
           : mapping.destToSourceOffset;
 

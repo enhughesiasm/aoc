@@ -87,3 +87,50 @@ export function parseNumberList(input: string, separator: string) {
     .map((n) => parseInt(n))
     .filter((n) => n !== null);
 }
+
+export function calculateCharacterFrequencies(
+  inputString: string,
+  includeSpaces = false
+): {
+  sortedFrequencies: { [char: string]: number };
+  groupedByFrequency: { [frequency: number]: string[] };
+} {
+  if (!includeSpaces) inputString = inputString.replaceAll(' ', '');
+
+  const charFrequencies: { [char: string]: number } = {};
+
+  for (const char of inputString) {
+    if (charFrequencies[char]) {
+      charFrequencies[char]++;
+    } else {
+      charFrequencies[char] = 1;
+    }
+  }
+
+  const sortedCharFrequencies = Object.entries(charFrequencies)
+    .sort(([charA, frequencyA], [charB, frequencyB]) => {
+      // Sort by frequency first, and then alphabetically if frequencies are equal
+      return frequencyB - frequencyA || charA.localeCompare(charB);
+    })
+    .reduce((sortedObj, [char, frequency]) => {
+      sortedObj[char] = frequency;
+      return sortedObj;
+    }, {} as { [char: string]: number });
+
+  const groupedByFrequency = Object.entries(charFrequencies).reduce(
+    (groupedObj, [char, frequency]) => {
+      if (groupedObj[frequency]) {
+        groupedObj[frequency].push(char);
+      } else {
+        groupedObj[frequency] = [char];
+      }
+      return groupedObj;
+    },
+    {} as { [frequency: number]: string[] }
+  );
+
+  return {
+    sortedFrequencies: sortedCharFrequencies,
+    groupedByFrequency: groupedByFrequency,
+  };
+}
