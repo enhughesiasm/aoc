@@ -88,6 +88,33 @@ export function parseNumberList(input: string, separator: string) {
     .filter((n) => n !== null);
 }
 
+export function greatestCommonDivisor(a: number, b: number): number {
+  while (b !== 0) {
+    const temp = b;
+    b = a % b;
+    a = temp;
+  }
+  return a;
+}
+
+function findLCM(a: number, b: number): number {
+  return (a * b) / greatestCommonDivisor(a, b);
+}
+
+export function lowestCommonMultiple(numbers: number[]): number {
+  if (numbers.length < 2) {
+    throw new Error('At least two numbers are required to find LCM.');
+  }
+
+  let lcm = numbers[0];
+
+  for (let i = 1; i < numbers.length; i++) {
+    lcm = findLCM(lcm, numbers[i]);
+  }
+
+  return lcm;
+}
+
 export function calculateCharacterFrequencies(
   inputString: string,
   includeSpaces = false
