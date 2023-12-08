@@ -17,6 +17,7 @@ export async function day8b(dataPath?: string) {
   const input = parseInput(data);
 
   // the brute force approach takes about 1 minute to do 0.000054723608008449554%
+  // which I think comes out to roughly 3.8 years to finish
   // so a bit more thought is needed here...
 
   // const steps = followInstructionsBruteForce(input);
@@ -65,9 +66,9 @@ function followInstructionsBruteForce(input: Input): number {
     );
     stepsRequired++;
 
-    if (stepsRequired % 1000000 === 0) {
-      console.log((100 * stepsRequired) / 7309459565207 + '%');
-    }
+    // if (stepsRequired % 1000000 === 0) {
+    //   console.log((100 * stepsRequired) / 7309459565207 + '%');
+    // }
   }
 
   return stepsRequired;
