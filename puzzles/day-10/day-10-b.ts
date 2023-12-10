@@ -71,6 +71,9 @@ function floodFill(
   const cellQueue = [start];
   while (cellQueue.length > 0) {
     const [y, x] = cellQueue.pop();
+
+    if (floodFilledMap[y][x] !== targetChar) continue;
+
     floodFilledMap[y][x] = replacementChar;
 
     if (y > 0 && floodFilledMap[y - 1][x] === targetChar)
