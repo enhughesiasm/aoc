@@ -66,6 +66,13 @@ export function sum(arr: number[]): number {
   );
 }
 
+export function surroundWithBorder(char: string, lines: string[]): string[] {
+  const length = lines[0].length + 2;
+
+  const newLine = char.repeat(length);
+  return [newLine, ...lines.map((l) => `${char}${l}${char}`), newLine];
+}
+
 export function groupByEmptyLines(inputArray: string[]): string[][] {
   return inputArray.reduce((acc, currentValue) => {
     if (currentValue.trim() === '') {
