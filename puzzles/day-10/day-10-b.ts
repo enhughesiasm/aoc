@@ -133,11 +133,11 @@ function generateDoubleResolutionMap(
 }
 
 function setDoubleResolutionGapToPipe(
-  travelledFrom: Direction,
+  travelDirection: Direction,
   toPosition: [number, number],
   map: string[][]
 ) {
-  switch (travelledFrom) {
+  switch (travelDirection) {
     case 'E':
       map[toPosition[0] * 2][toPosition[1] * 2 - 1] = PIPE;
       break;
@@ -196,20 +196,20 @@ function move(from: [number, number], towards: Direction): [number, number] {
   }
 }
 
-function setupStartPosition(tileRows: Tile[][]): [number, number] {
-  const row = tileRows.findIndex((r) => r.findIndex((c) => c.isStart) !== -1);
+function setupStartPosition(grid: Tile[][]): [number, number] {
+  const row = grid.findIndex((r) => r.findIndex((c) => c.isStart) !== -1);
 
   const startPos: [number, number] = [
     row,
-    tileRows[row].findIndex((c) => c.isStart),
+    grid[row].findIndex((c) => c.isStart),
   ];
 
   // we need to check which pipes actually connect to start - there could be dummy pipes as neighbours
   const connectingStartNeighbours = DIRECTIONS.filter((dir) =>
-    doPipesConnect(startPos, dir, tileRows)
+    doPipesConnect(startPos, dir, grid)
   );
 
-  tileRows[startPos[0]][startPos[1]].connections = connectingStartNeighbours;
+  grid[startPos[0]][startPos[1]].connections = connectingStartNeighbours;
 
   return startPos;
 }
