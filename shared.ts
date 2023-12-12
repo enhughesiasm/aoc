@@ -66,6 +66,28 @@ export function sum(arr: number[]): number {
   );
 }
 
+export function isArrayEqual(a: number[], b: number[]) {
+  return a.length === b.length && a.every((v, i) => v === b[i]);
+}
+
+export function getLengthsForContiguousSequences(
+  input: string,
+  targetChar: string
+): number[] {
+  const regex = new RegExp(`${targetChar}+`, 'g');
+  return [...input.matchAll(regex)].map((sequence) => sequence[0].length);
+}
+
+export function getAllIndicesForCharacter(
+  input: string,
+  targetChar: string
+): number[] {
+  const escapedTargetChar = targetChar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`${escapedTargetChar}`, 'g');
+
+  return [...input.matchAll(regex)].map((m) => m.index);
+}
+
 export function surroundWithBorder(char: string, lines: string[]): string[] {
   const length = lines[0].length + 2;
 
