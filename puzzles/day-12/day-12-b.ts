@@ -1,63 +1,87 @@
-import {
-  getAllIndicesForCharacter,
-  getLengthsForContiguousSequences,
-  isArrayEqual,
-  parseNumberList,
-  readData,
-  sum,
-} from '../../shared.ts';
+import { parseNumberList, readData, repeatArray, sum } from '../../shared.ts';
+
 import chalk from 'chalk';
 
-// Hello future me, I hope you had a nice trip 👋
-// I think this would work, but it doesn't finish in a reasonable time even on the SAMPLE data!
-// TODO:
-// 1) test it on a tiny sample and verify the result
-// 2) memoize the earlier parts - we're recalculating everything on every "?" so long strings
-//    do a LOT of repeat work - memoize the permutation generation somehow and this should
-//    speed up a LOT
-// 3) something else..?!
-
 type Record = {
-  unfoldedString: string;
-  validPermutations: string[];
-  quintupledExpectedCounts: number[];
+  input: string;
+  expectedCounts: number[];
 };
 
 export async function day12b(dataPath?: string) {
   const data = await readData(dataPath);
   const records = data.map((l) => parseLine(l));
-
-  for (const r of records) {
-    const queryIndices = getAllIndicesForCharacter(r.unfoldedString, '?');
-
-    // we need to iterate 2^(queryCharCount) to find all permutations 😔
-    // (this will be very slow if part 2 is cruel
-    //  but I can't think of a smart way to avoid that... 😅)
-    for (let seed = 0; seed < Math.pow(2, queryIndices.length); seed++) {
-      const permutation = generatePermutation(r.unfoldedString, seed);
-      const hashSequences = getLengthsForContiguousSequences(permutation, '#');
-      if (isArrayEqual(hashSequences, r.quintupledExpectedCounts)) {
-        r.validPermutations.push(permutation);
-      }
-    }
-  }
-
-  return sum(records.map((r) => r.validPermutations.length));
+  return sum(records.map((r) => countPermutations(r)));
 }
 
-function generatePermutation(input: string, seed: number): string {
-  let innerCount = 0;
+const cache = new Map<string, number>();
 
-  // create a permutation based on which '?' we're on
-  const permutation = input.replace(/\?/g, (original) => {
-    // every other innerCount alternate between characters, using the seed to see which ? to replace with what
-    // (sorry future me trying to understand what I did here, I promise it makes sense 😅)
-    const replacement = (seed >> innerCount) % 2 ? '#' : '.';
-    innerCount++;
-    return replacement;
-  });
+function countPermutations(r: Record): number {
+  // base case 1:
+  // have we run out of expected counts?
+  // if so, any remaining gears ('#') mean this is an invalid path so no need to explore further
+  if (r.expectedCounts.length === 0) {
+    return r.input.includes('#') ? 0 : 1;
+  }
 
-  return permutation;
+  // base case 2:
+  // have we reached the end of the string?
+  // if so, this is valid only if we have met all of the required counts
+  if (r.input === '') {
+    return r.expectedCounts.length ? 0 : 1;
+  }
+
+  const cacheKey = `${r.input}-${r.expectedCounts}`;
+  if (cache.has(cacheKey)) {
+    return cache.get(cacheKey)!;
+  }
+  let count = 0;
+
+  const currentChar = r.input[0];
+  const [currentCount, ...remainingCounts] = r.expectedCounts;
+  switch (currentChar) {
+    case '.':
+      count += countPermutations({
+        input: r.input.slice(1),
+        expectedCounts: r.expectedCounts,
+      });
+      break;
+    case '#':
+      if (isValidGearGroup(r.input, currentCount)) {
+        count += countPermutations({
+          input: r.input.slice(currentCount + 1),
+          expectedCounts: remainingCounts,
+        });
+      }
+      break;
+    case '?':
+      // add dot case AND gear case for each ?
+      count += countPermutations({
+        input: r.input.slice(1),
+        expectedCounts: r.expectedCounts,
+      });
+      if (isValidGearGroup(r.input, currentCount)) {
+        count += countPermutations({
+          input: r.input.slice(currentCount + 1),
+          expectedCounts: remainingCounts,
+        });
+      }
+      break;
+  }
+
+  cache.set(cacheKey, count);
+  return count;
+}
+
+function isValidGearGroup(remainingInput: string, desiredCount: number) {
+  return (
+    // required gears have to fit into the remaining string
+    desiredCount <= remainingInput.length &&
+    // the next few characters have to all be either # or ? up to the required number
+    !remainingInput.slice(0, desiredCount).includes('.') &&
+    // the gear group has to end at the right count, which could be either end-of-string, OR a . OR a ?
+    (desiredCount === remainingInput.length ||
+      remainingInput[desiredCount] !== '#')
+  );
 }
 
 function parseLine(line: string): Record {
@@ -67,19 +91,14 @@ function parseLine(line: string): Record {
   const unfolded = unfold5Times(original, '?');
 
   return {
-    quintupledExpectedCounts: repeatArray(expectedCounts, 5),
-    unfoldedString: unfolded,
-    validPermutations: [],
+    expectedCounts: repeatArray(expectedCounts, 5),
+    input: unfolded,
   };
 }
 
 function unfold5Times(inputString: string, separator: string): string {
   // lol
   return `${inputString}${separator}${inputString}${separator}${inputString}${separator}${inputString}${separator}${inputString}`;
-}
-
-function repeatArray(arr: number[], times: number): number[] {
-  return Array.from({ length: times }, () => [...arr]).flat();
 }
 
 const answer = await day12b();

@@ -88,6 +88,10 @@ export function getAllIndicesForCharacter(
   return [...input.matchAll(regex)].map((m) => m.index);
 }
 
+export function repeatArray<T>(arr: T[], times: number): T[] {
+  return Array.from({ length: times }, () => [...arr]).flat();
+}
+
 export function surroundWithBorder(char: string, lines: string[]): string[] {
   const length = lines[0].length + 2;
 
