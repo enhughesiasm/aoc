@@ -14,6 +14,23 @@ export function numericOnly(input: string): string {
   return input.replace(/\D/g, '');
 }
 
+export function transposeArray(input: string[]): string[] {
+  const numRows = input.length;
+  const numCols = input[0].length;
+
+  const transposedArray: string[] = [];
+
+  for (let j = 0; j < numCols; j++) {
+    let columnString = '';
+    for (let i = 0; i < numRows; i++) {
+      columnString += input[i][j];
+    }
+    transposedArray.push(columnString);
+  }
+
+  return transposedArray;
+}
+
 export function isNumeric(input: string): boolean {
   const numericRegex = /^[0-9]$/;
   return numericRegex.test(input);
