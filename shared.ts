@@ -31,6 +31,20 @@ export function transposeArray(input: string[]): string[] {
   return transposedArray;
 }
 
+export function replaceAt(
+  input: string,
+  index: number,
+  replacementChar: string
+): string {
+  if (index < 0 || index >= input.length) {
+    throw new Error('Index out of bounds');
+  }
+
+  const updatedString =
+    input.substring(0, index) + replacementChar + input.substring(index + 1);
+  return updatedString;
+}
+
 export function isNumeric(input: string): boolean {
   const numericRegex = /^[0-9]$/;
   return numericRegex.test(input);
@@ -163,6 +177,36 @@ export function lowestCommonMultiple(numbers: number[]): number {
   }
 
   return lcm;
+}
+
+export function isWithinBounds<T>(grid: T[][], x: number, y: number) {
+  const { maxX, maxY } = getGridMax(grid);
+  return 0 <= y && y <= maxY && 0 <= x && x <= maxX;
+}
+
+export function getGridMax<T>(grid: T[][]) {
+  const [maxY, maxX] = [grid.length - 1, grid[0].length - 1];
+
+  return { maxX, maxY };
+}
+
+export const ALL_CARTESIAN_DIRECTIONS: [number, number][] = [
+  [-1, 0],
+  [0, 1],
+  [0, -1],
+  [1, 0],
+];
+
+export function countFrequency(input: string, targetChar: string) {
+  let count = 0;
+
+  for (let i = 0; i < input.length; i++) {
+    if (input[i] === targetChar) {
+      count++;
+    }
+  }
+
+  return count;
 }
 
 export function calculateCharacterFrequencies(
