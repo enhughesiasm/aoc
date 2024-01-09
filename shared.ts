@@ -190,6 +190,10 @@ export function getGridMax<T>(grid: T[][]) {
   return { maxX, maxY };
 }
 
+export function dumpGrid(grid: string[][]) {
+  grid.map((row) => console.log(`\n${row.join('')}`));
+}
+
 export const ALL_CARTESIAN_DIRECTIONS: [number, number][] = [
   [-1, 0],
   [0, 1],
