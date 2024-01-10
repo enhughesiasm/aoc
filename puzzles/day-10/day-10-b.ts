@@ -1,4 +1,4 @@
-import { readData, surroundWithBorder } from '../../shared.ts';
+import { floodFill, readData, surroundWithBorder } from '../../shared.ts';
 import chalk from 'chalk';
 
 const DIRECTIONS = ['N', 'S', 'E', 'W'] as const;
@@ -58,41 +58,6 @@ function countEnclosedTiles(
   }
 
   return count;
-}
-
-function floodFill(
-  map: string[][],
-  start: [number, number],
-  targetChar: string,
-  replacementChar: string
-): string[][] {
-  const floodFilledMap: string[][] = map.map((subarray) => [...subarray]);
-
-  const cellQueue = [start];
-  while (cellQueue.length > 0) {
-    const [y, x] = cellQueue.pop();
-
-    if (floodFilledMap[y][x] !== targetChar) continue;
-
-    floodFilledMap[y][x] = replacementChar;
-
-    if (y > 0 && floodFilledMap[y - 1][x] === targetChar)
-      cellQueue.push([y - 1, x]);
-    if (x > 0 && floodFilledMap[y][x - 1] === targetChar)
-      cellQueue.push([y, x - 1]);
-    if (
-      y < floodFilledMap.length - 1 &&
-      floodFilledMap[y + 1][x] === targetChar
-    )
-      cellQueue.push([y + 1, x]);
-    if (
-      x < floodFilledMap[0].length - 1 &&
-      floodFilledMap[y][x + 1] === targetChar
-    )
-      cellQueue.push([y, x + 1]);
-  }
-
-  return floodFilledMap;
 }
 
 function generateDoubleResolutionMap(

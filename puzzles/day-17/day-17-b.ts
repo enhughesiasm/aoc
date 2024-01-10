@@ -123,7 +123,7 @@ const computeHeatLoss = (
     if (!atStartPosition && consecutiveSteps < maxStraightSteps) {
       const newRow = row + rowDir;
       const newCol = col + colDir;
-      if (isWithinBounds(grid, newRow, newCol)) {
+      if (isWithinBounds(grid, [newRow, newCol])) {
         addNodeToQueue(
           queue,
           newRow,
@@ -148,7 +148,7 @@ const computeHeatLoss = (
         }
         const newRow = row + possibleRowDir;
         const newCol = col + possibleColDir;
-        if (isWithinBounds(grid, newRow, newCol)) {
+        if (isWithinBounds(grid, [newRow, newCol])) {
           addNodeToQueue(
             queue,
             newRow,

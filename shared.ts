@@ -179,9 +179,9 @@ export function lowestCommonMultiple(numbers: number[]): number {
   return lcm;
 }
 
-export function isWithinBounds<T>(grid: T[][], x: number, y: number) {
+export function isWithinBounds<T>(grid: T[][], pos: [number, number]): boolean {
   const { maxX, maxY } = getGridMax(grid);
-  return 0 <= y && y <= maxY && 0 <= x && x <= maxX;
+  return 0 <= pos[1] && pos[1] <= maxY && 0 <= pos[0] && pos[0] <= maxX;
 }
 
 export function getGridMax<T>(grid: T[][]) {
@@ -190,8 +190,11 @@ export function getGridMax<T>(grid: T[][]) {
   return { maxX, maxY };
 }
 
-export function dumpGrid(grid: string[][]) {
-  grid.map((row) => console.log(`\n${row.join('')}`));
+export function dumpGrid(
+  grid: string[][],
+  displayFunc: (gridEntry: string) => string = (s) => s
+) {
+  grid.map((row) => console.log(`\n${row.map(displayFunc).join('')}`));
 }
 
 export const ALL_CARTESIAN_DIRECTIONS: [number, number][] = [
@@ -258,4 +261,39 @@ export function calculateCharacterFrequencies(
     sortedFrequencies: sortedCharFrequencies,
     groupedByFrequency: groupedByFrequency,
   };
+}
+
+export function floodFill<TTarget>(
+  map: string[][],
+  start: [number, number],
+  targetChar: TTarget,
+  replacementChar: string
+): string[][] {
+  const floodFilledMap: string[][] = map.map((subarray) => [...subarray]);
+
+  const cellQueue = [start];
+  while (cellQueue.length > 0) {
+    const [y, x] = cellQueue.pop();
+
+    if (floodFilledMap[y][x] !== targetChar) continue;
+
+    floodFilledMap[y][x] = replacementChar;
+
+    if (y > 0 && floodFilledMap[y - 1][x] === targetChar)
+      cellQueue.push([y - 1, x]);
+    if (x > 0 && floodFilledMap[y][x - 1] === targetChar)
+      cellQueue.push([y, x - 1]);
+    if (
+      y < floodFilledMap.length - 1 &&
+      floodFilledMap[y + 1][x] === targetChar
+    )
+      cellQueue.push([y + 1, x]);
+    if (
+      x < floodFilledMap[0].length - 1 &&
+      floodFilledMap[y][x + 1] === targetChar
+    )
+      cellQueue.push([y, x + 1]);
+  }
+
+  return floodFilledMap;
 }

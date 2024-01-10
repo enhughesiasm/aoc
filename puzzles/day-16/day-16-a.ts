@@ -62,7 +62,7 @@ function moveBeam(
     beam.pos[1] + beam.dir[1],
   ];
 
-  if (!isWithinBounds(grid, newPos[0], newPos[1])) {
+  if (!isWithinBounds(grid, newPos)) {
     return [];
   }
 
