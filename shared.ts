@@ -1,4 +1,5 @@
 import { readFile } from 'fs/promises';
+import { matchesToArray } from './dotless.ts';
 
 export async function readData(
   path?: string,
@@ -10,8 +11,17 @@ export async function readData(
   return preserveEmptyLines ? data : data.filter((d) => d.length > 0);
 }
 
+/**
+ * Returns all numeric characters concatenated into a single string
+ * @param input
+ * @returns
+ */
 export function numericOnly(input: string): string {
   return input.replace(/\D/g, '');
+}
+
+export function extractNumbers(input: string): number[] {
+  return matchesToArray(input, /\d+/g, (n) => Number.parseInt(n[0]));
 }
 
 export function transposeArray(input: string[]): string[] {
