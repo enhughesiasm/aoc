@@ -69,10 +69,8 @@ const computeArea = (instructions: SimpleInstruction[]) => {
         break;
     }
   }
-
-  const shoelaceArea = Math.abs(sum);
-  const picksTheorem = perimeter / 2 + 1;
-  return shoelaceArea + picksTheorem;
+  // interior points plus half perimeter plus one (because maths)
+  return Math.abs(sum) + perimeter / 2 + 1;
 };
 
 type Direction = 'U' | 'L' | 'R' | 'D';

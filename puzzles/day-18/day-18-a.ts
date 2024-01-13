@@ -65,9 +65,8 @@ const computeArea = (instructions: SimpleInstruction[]) => {
     }
   }
 
-  const shoelaceArea = Math.abs(sum);
-  const picksTheorem = perimeter / 2 + 1;
-  return shoelaceArea + picksTheorem;
+  // interior points plus half perimeter plus one (because maths)
+  return Math.abs(sum) + perimeter / 2 + 1;
 };
 
 function computeTrenchSize(grid: string[][], gridSize: Pos): number {
