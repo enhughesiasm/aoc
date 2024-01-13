@@ -11,7 +11,7 @@ export async function day23a(dataPath?: string) {
   const data = await readData(dataPath);
   const map = parseMap(data);
 
-  const start: Point = [0, 1];
+  const start: Point = [1, 0];
 
   const dest = findDest(map[map.length - 1], map.length - 1);
 
