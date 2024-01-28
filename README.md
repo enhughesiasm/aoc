@@ -1,36 +1,29 @@
-# Advent of Code 2023
+# Advent of Code
+
+## Scaffolding a new year
+
+// TODO implement this!
 
 ## Adding data
 
-In the relevant day-X folder:
+In the relevant `YYYY/day-X` folder:
 
-👉 Add `day-X-a.sample-data.txt` and `day-X-a.data.txt` for part A
-👉 Add `day-X-b.sample-data.txt` and `day-X-b.data.txt` for part B
+👉 Add `part_one.sample.txt` and `part_one.txt` for part 1
+👉 Add `part_two.sample.txt` and `part_two.txt` for part 2
 
 ## Running the Puzzles
 
 ```terminal
-npx nx day-DAYNUMBER-PART
+npm start YYYY_dd_part
+
+e.g.
+npm start 2023_12_1 // 2023 Day 12 Part 1
 ```
 
-(Part a or part b)
+With sample data:
 
 e.g. to run day 1, part A against sample data:
 
 ```terminal
-npx nx day-1-a:sample
-```
-
-Or against full data:
-
-```terminal
-npx nx day-1-a
-```
-
-## Getting Started
-
-This convenient repo was created using `ts-aoc-starter`
-
-```terminal
-npx create-ts-aoc-starter
+npm start 2023_12_1:sample // 2023 Day 12 Part 1 with sample data
 ```
