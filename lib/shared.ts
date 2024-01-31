@@ -1,5 +1,6 @@
 import { readFile } from 'fs/promises';
 import { matchesToArray } from './dotless.ts';
+import crypto from 'node:crypto';
 
 export async function readData(
   path?: string,
@@ -112,6 +113,12 @@ export function max(arr: number[]): number {
 
 export function isArrayEqual(a: number[], b: number[]) {
   return a.length === b.length && a.every((v, i) => v === b[i]);
+}
+
+export function calculateMD5Hash(input: string): string {
+  const md5Hash = crypto.createHash('md5');
+  md5Hash.update(input);
+  return md5Hash.digest('hex');
 }
 
 export function getLengthsForContiguousSequences(
@@ -309,4 +316,11 @@ export function floodFill<TTarget>(
   }
 
   return floodFilledMap;
+}
+
+export function removeAllSubstrings(input: string, remove: string[]): string {
+  for (const r of remove) {
+    input = input.replaceAll(r, '');
+  }
+  return input;
 }

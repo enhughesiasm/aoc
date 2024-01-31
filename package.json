@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "tsx ./puzzles/solve.ts",
+    "gen": "tsx ./puzzles/generate.ts",
     "test": "vitest"
   },
   "private": true,

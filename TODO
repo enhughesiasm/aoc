@@ -1,5 +1,10 @@
-1) Write my own generator that scaffolds a new year using the new execution system
-2) Tidy existing 2023 code, improve the shared lib
-3) Do previous years, improving the shared lib as we go
-4) Go back to all the TODO: optimise comments and speed up the solutions so the tests run in reasonable time
-5) Testing is slow; make it so we can run subset tests, i.e. just one year, or just a day
+1. Simplify the test format in both existing tests AND the TEST_TEMPLATE
+
+- Change it so the year is a constant const YEAR = YEAR_REPLACEMENT;
+- Remove the day numbers, so the array is just a tuple of answers:
+  const answers = [ [PART_ONE, PART_TWO], [PART_ONE, PART_TWO], etc ]
+
+2. Tidy existing 2023 code, improve the shared lib
+3. Do previous years, improving the shared lib as we go
+4. Go back to all the TODO: optimise comments and speed up the solutions so the tests run in reasonable time
+5. Testing is slow; make it so we can run subset tests, i.e. just one year, or just a day
