@@ -1,19 +1,23 @@
 import { execute } from '../execute';
 
-const answers: { year: number; day: number; part: 1 | 2; answer: number }[] = [
-  {
-    year: YEAR_REPLACEMENT,
-    day: 25,
-    part: 2,
-    answer: 0,
-  },
-];
+const YEAR = YEAR_REPLACEMENT;
 
-describe(`YEAR_REPLACEMENT`, () => {
-  answers.forEach((a) => {
-    test(`${a.year} - Day ${a.day} - Part ${a.part}`, async () => {
-      const answer = await execute([a.year, a.day, a.part, 'ACTUAL']);
-      expect(answer).toBe(a.answer);
-    });
+const answers: [number, number][] = [[0, 0]];
+
+describe(`${YEAR}`, () => {
+  answers.forEach((a, dayIndex) => {
+    for (let partIndex = 0; partIndex <= 1; partIndex++) {
+      test(`${YEAR} - Day ${dayIndex + 1} - Part ${
+        partIndex + 1
+      }`, async () => {
+        const answer = await execute([
+          YEAR,
+          dayIndex + 1,
+          (partIndex + 1) as 1 | 2,
+          'ACTUAL',
+        ]);
+        expect(answer).toBe(answers[dayIndex][partIndex]);
+      });
+    }
   });
 });
