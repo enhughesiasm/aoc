@@ -2,7 +2,7 @@ import { execute } from '../execute';
 
 const YEAR = 2015;
 
-const answers: [number, number][] = [
+const answers: [number | string, number | string][] = [
   [232, 1783],
   [1606483, 3842356],
   [2081, 2341],
@@ -13,7 +13,7 @@ const answers: [number, number][] = [
   [1350, 2085],
   [207, 804],
   [360154, 5103798],
-  [0, 0],
+  ['hepxxyzz', 'heqaabcc'],
   [0, 0],
   [0, 0],
   [0, 0],

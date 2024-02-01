@@ -2,7 +2,7 @@ import { execute } from '../execute';
 
 const YEAR = YEAR_REPLACEMENT;
 
-const answers: [number, number][] = [[0, 0]];
+const answers: [number | string, number | string][] = [[0, 0]];
 
 describe(`${YEAR}`, () => {
   answers.forEach((a, dayIndex) => {
