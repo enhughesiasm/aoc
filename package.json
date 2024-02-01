@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "tsx ./puzzles/solve.ts",
+    "start": "tsx watch ./puzzles/solve.ts",
     "gen": "tsx ./puzzles/generate.ts",
     "test": "vitest"
   },
