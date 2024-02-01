@@ -1,5 +1,4 @@
-import { sum } from 'mathjs';
-import { extractNumbers, readData } from '../../../lib/shared.ts';
+import { extractNumbers, readData, sum } from '../../../lib/shared.ts';
 
 export async function solve(dataPath?: string) {
   const data = await readData(dataPath);

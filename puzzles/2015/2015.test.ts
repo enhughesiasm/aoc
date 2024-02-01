@@ -15,7 +15,7 @@ const answers: [number | string, number | string][] = [
   [360154, 5103798],
   ['hepxxyzz', 'heqaabcc'],
   [119433, 68466],
-  [0, 0],
+  [618, 601],
   [0, 0],
   [0, 0],
   [0, 0],
