@@ -82,7 +82,7 @@ function compareHands(a: Hand, b: Hand): 1 | 0 | -1 {
   return 0;
 }
 
-export function parseHand(line: string): Hand {
+function parseHand(line: string): Hand {
   const parts = line.split(' ');
 
   const bid = parseInt(parts[1]);

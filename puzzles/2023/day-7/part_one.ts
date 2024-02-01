@@ -91,7 +91,7 @@ function compareHands(a: Hand, b: Hand): 1 | 0 | -1 {
   return 0;
 }
 
-export function parseLine(line: string): Hand {
+function parseLine(line: string): Hand {
   const parts = line.split(' ');
 
   const bid = parseInt(parts[1]);
