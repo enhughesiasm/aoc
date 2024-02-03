@@ -283,6 +283,53 @@ export function calculateCharacterFrequencies(
   };
 }
 
+function containsSubstringFromArray(inputString: string, substrings: string[]) {
+  for (const substring of substrings) {
+    if (inputString.includes(substring)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function replaceSubstringAtIndex(
+  originalString: string,
+  index: number,
+  substringToReplace: string,
+  replacement: string
+) {
+  if (index < 0 || index >= originalString.length) {
+    throw new Error('Incorrect string length');
+  }
+
+  // Use substr to get the prefix and suffix, and concatenate with the replacement
+  return (
+    originalString.substring(0, index) +
+    replacement +
+    originalString.substring(index + substringToReplace.length)
+  );
+}
+
+function findFirstSubstring(
+  str: string,
+  substrings: string[],
+  minIndex: number = 0
+) {
+  let result: { substring: string; index: number } | null = null;
+
+  for (let substring of substrings) {
+    const index = str.indexOf(substring, minIndex);
+
+    if (index !== -1 && (result === null || index < result.index)) {
+      result = {
+        substring: substring,
+        index: index,
+      };
+    }
+  }
+  return result;
+}
+
 export function floodFill<TTarget>(
   map: string[][],
   start: [number, number],
