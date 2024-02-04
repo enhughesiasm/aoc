@@ -371,3 +371,39 @@ export function removeAllSubstrings(input: string, remove: string[]): string {
   }
   return input;
 }
+
+interface MemoCache {
+  [key: string]: number[];
+}
+
+// TODO: optimise factorisation
+function findFactors(
+  num: number,
+  includeSelf: boolean = true,
+  memo: MemoCache = {}
+): number[] {
+  const memoKey = `${num}-${includeSelf}`;
+
+  if (memo[memoKey]) {
+    return memo[memoKey];
+  }
+
+  const factors: Set<number> = new Set();
+  const end = includeSelf ? num : Math.floor(num / 2);
+
+  for (let i = 1; i <= end; i++) {
+    if (num % i === 0) {
+      factors.add(i);
+    }
+  }
+
+  if (includeSelf) {
+    factors.add(num);
+  }
+
+  const result = Array.from(new Set(factors));
+
+  memo[memoKey] = result;
+
+  return result;
+}
