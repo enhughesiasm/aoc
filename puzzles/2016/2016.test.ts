@@ -2,7 +2,10 @@ import { execute } from '../execute';
 
 const YEAR = 2016;
 
-const answers: [number | string, number | string][] = [[307, 165]];
+const answers: [number | string, number | string][] = [
+  [307, 165],
+  ['74921', 'A6B35'],
+];
 
 describe(`${YEAR}`, () => {
   answers.forEach((a, dayIndex) => {
