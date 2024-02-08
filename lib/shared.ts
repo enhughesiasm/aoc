@@ -20,6 +20,15 @@ export function numericOnly(input: string): string {
   return input.replace(/\D/g, '');
 }
 
+/**
+ * Returns all non-numeric characters concatenated into a single string
+ * @param input
+ * @returns
+ */
+export function nonNumericOnly(input: string): string {
+  return input.replace(/\d/g, '');
+}
+
 export function extractNumbers(input: string): number[] {
   return matchesToArray(input, /-?\d+/g, (n) => Number.parseInt(n[0]));
 }
@@ -406,4 +415,8 @@ function findFactors(
   memo[memoKey] = result;
 
   return result;
+}
+
+export function manhattan(a: [number, number], b: [number, number]): number {
+  return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
 }
