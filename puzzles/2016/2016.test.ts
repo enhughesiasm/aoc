@@ -5,6 +5,11 @@ const YEAR = 2016;
 const answers: [number | string, number | string][] = [
   [307, 165],
   ['74921', 'A6B35'],
+  [1032, 1838],
+  [361724, 482],
+  ['2414bc77', '437e60fc'],
+  ['qoclwvah', 'ryrgviuv'],
+  [115, 231],
 ];
 
 describe(`${YEAR}`, () => {
