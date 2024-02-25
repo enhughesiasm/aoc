@@ -50,6 +50,38 @@ export function transposeArray(input: string[]): string[] {
   return transposedArray;
 }
 
+export function transpose2DArray<T>(input: T[][]): T[][] {
+  const numRows = input.length;
+  const numCols = input[0].length;
+
+  const result: T[][] = new Array(numCols);
+  for (let i = 0; i < numCols; i++) {
+    result[i] = new Array(numRows);
+  }
+
+  for (let i = 0; i < numRows; i++) {
+    for (let j = 0; j < numCols; j++) {
+      result[j][i] = input[i][j];
+    }
+  }
+
+  return result;
+}
+
+export function divideArrayIntoChunks(
+  arr: number[],
+  chunkSize: number
+): number[][] {
+  const result: number[][] = [];
+
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    const chunk = arr.slice(i, i + chunkSize);
+    result.push(chunk);
+  }
+
+  return result;
+}
+
 export function replaceAt(
   input: string,
   index: number,
@@ -292,7 +324,45 @@ export function calculateCharacterFrequencies(
   };
 }
 
-function containsSubstringFromArray(inputString: string, substrings: string[]) {
+export function rotateChar(char: string, amount: number): string {
+  if (
+    typeof char !== 'string' ||
+    char.length !== 1 ||
+    !char.match(/[a-zA-Z]/)
+  ) {
+    throw new Error('Input must be a single alphabetical character');
+  }
+
+  const isUpperCase = char === char.toUpperCase();
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
+  // Adjust the character to lowercase for easier manipulation
+  char = char.toLowerCase();
+
+  // Find the index of the character in the alphabet
+  const charIndex = alphabet.indexOf(char);
+
+  // Rotate the character by the specified number of times
+  const rotatedIndex = (charIndex + amount) % 26;
+
+  // Handle the case where the rotated index is negative
+  const finalIndex = rotatedIndex >= 0 ? rotatedIndex : 26 + rotatedIndex;
+
+  // Get the rotated character
+  let rotatedChar = alphabet.charAt(finalIndex);
+
+  // Convert the character back to uppercase if the input was uppercase
+  if (isUpperCase) {
+    rotatedChar = rotatedChar.toUpperCase();
+  }
+
+  return rotatedChar;
+}
+
+export function containsSubstringFromArray(
+  inputString: string,
+  substrings: string[]
+) {
   for (const substring of substrings) {
     if (inputString.includes(substring)) {
       return true;
@@ -301,7 +371,7 @@ function containsSubstringFromArray(inputString: string, substrings: string[]) {
   return false;
 }
 
-function replaceSubstringAtIndex(
+export function replaceSubstringAtIndex(
   originalString: string,
   index: number,
   substringToReplace: string,

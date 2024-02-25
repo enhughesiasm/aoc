@@ -1,3 +1,4 @@
+import { getColumn, rotateArray } from '../../../lib/grid.ts';
 import { dumpGrid, extractNumbers, readData } from '../../../lib/shared.ts';
 
 const WIDTH = 50;
@@ -57,42 +58,6 @@ function performInstruction(inst: Instruction, screen: string[][]) {
       screen[inst.row] = rotateArray(screen[inst.row], inst.amount);
       break;
   }
-}
-
-function getColumn<T>(grid: T[][], columnIndex: number): T[] {
-  if (grid.length === 0 || columnIndex < 0 || columnIndex >= grid[0].length) {
-    return [];
-  }
-
-  const columnElements: T[] = [];
-
-  for (let i = 0; i < grid.length; i++) {
-    const row = grid[i];
-    if (row.length > columnIndex) {
-      columnElements.push(row[columnIndex]);
-    } else {
-      console.error('Not enough columns in this row.');
-    }
-  }
-
-  return columnElements;
-}
-
-function rotateArray<T>(arr: T[], amount: number): T[] {
-  const length = arr.length;
-
-  if (length === 0) {
-    return arr;
-  }
-
-  const effectiveAmount = amount % length;
-
-  const rotatedArray = [
-    ...arr.slice(-effectiveAmount),
-    ...arr.slice(0, length - effectiveAmount),
-  ];
-
-  return rotatedArray;
 }
 
 function parseInstruction(l: string): Instruction {
