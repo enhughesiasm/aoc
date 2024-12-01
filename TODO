@@ -1,4 +1,17 @@
-1. Finish all previous years
-2. Refactor / improve the shared lib; make it super smart and reusable
-3. Unit test the shared lib as well
-4. Go back to all the TODO: optimise comments and speed up the solutions so the tests run in reasonable time
+0. rewrite 2016 day 1 to use line intersection code
+1. Go through 2015/2023 and rejig the shared lib to make best use of it all; rewrite solutions
+   a) Grid.ts
+   - class to handle Compass/Directions etc, manage moving about and flood fill and general
+     manipulation
+     GO back and resolve old grid problems using the class, and improve it
+     SAME WITH
+     b) maths.ts
+     c) Parsing.ts
+     d) Strings.ts
+     and a Vector/Line management thing (like 2016 day 1 above)
+     e) CycleDetection higher order function would be cool
+2. optimise some of the less good solutions
+3. figure out attaching a debugger dynamically
+4. Finish 2016 - 2022
+5. Unit test the shared lib as well
+6. Go back to all the TODO: optimise comments and speed up the solutions so the tests run in reasonable time

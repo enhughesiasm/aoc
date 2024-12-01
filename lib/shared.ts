@@ -490,3 +490,7 @@ function findFactors(
 export function manhattan(a: [number, number], b: [number, number]): number {
   return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
 }
+
+export function countOccurrencesInArray<T>(array: T[], target: T): number {
+  return array.reduce((count, num) => count + (num === target ? 1 : 0), 0);
+}
