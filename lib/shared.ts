@@ -263,7 +263,7 @@ export const ALL_CARTESIAN_DIRECTIONS: [number, number][] = [
   [0, 1],
   [0, -1],
   [1, 0],
-];
+] as const;
 
 export function countFrequency(input: string, targetChar: string) {
   let count = 0;
@@ -336,22 +336,16 @@ export function rotateChar(char: string, amount: number): string {
   const isUpperCase = char === char.toUpperCase();
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
-  // Adjust the character to lowercase for easier manipulation
   char = char.toLowerCase();
 
-  // Find the index of the character in the alphabet
   const charIndex = alphabet.indexOf(char);
 
-  // Rotate the character by the specified number of times
   const rotatedIndex = (charIndex + amount) % 26;
 
-  // Handle the case where the rotated index is negative
   const finalIndex = rotatedIndex >= 0 ? rotatedIndex : 26 + rotatedIndex;
 
-  // Get the rotated character
   let rotatedChar = alphabet.charAt(finalIndex);
 
-  // Convert the character back to uppercase if the input was uppercase
   if (isUpperCase) {
     rotatedChar = rotatedChar.toUpperCase();
   }
@@ -389,7 +383,7 @@ export function replaceSubstringAtIndex(
   );
 }
 
-function findFirstSubstring(
+export function findFirstSubstring(
   str: string,
   substrings: string[],
   minIndex: number = 0
@@ -456,7 +450,7 @@ interface MemoCache {
 }
 
 // TODO: optimise factorisation
-function findFactors(
+export function findFactors(
   num: number,
   includeSelf: boolean = true,
   memo: MemoCache = {}
@@ -493,4 +487,8 @@ export function manhattan(a: [number, number], b: [number, number]): number {
 
 export function countOccurrencesInArray<T>(array: T[], target: T): number {
   return array.reduce((count, num) => count + (num === target ? 1 : 0), 0);
+}
+
+export function calculateDifferencesInNumericArray(arr: number[]): number[] {
+  return arr.slice(1).map((num, i) => num - arr[i]);
 }

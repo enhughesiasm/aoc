@@ -1,41 +1,38 @@
-import { ones } from 'mathjs';
-import { countOccurrencesInArray, readData, sum } from '../../../lib/shared.ts';
+import { readData } from '../../../lib/shared.ts';
 
 export async function solve(dataPath?: string) {
   const data = await readData(dataPath);
-  console.log();
 
   const lists = parseLists(data);
 
   return calculateSimilarityScore(lists);
 }
 
-function calculateSimilarityScore(lists: {
-  one: number[];
-  two: number[];
-}): number {
-  let total = 0;
-
-  for (let i = 0; i < lists.one.length; i++) {
-    const val = lists.one[i];
-    const amountInOtherList = countOccurrencesInArray(lists.two, val);
-
-    total += val * amountInOtherList;
-  }
-  return total;
-}
-
-function parseLists(data: string[]): { one: number[]; two: number[] } {
+function parseLists(lines: string[]): [number[], number[]] {
   const one: number[] = [];
   const two: number[] = [];
 
-  data.forEach((element) => {
-    one.push(Number.parseInt(element.split('   ')[0].toString().trim()));
-    two.push(Number.parseInt(element.split('   ')[1].toString().trim()));
+  lines.forEach((line) => {
+    const [first, second] = line
+      .split('   ')
+      .map((part) => Number.parseInt(part.trim()));
+    one.push(first);
+    two.push(second);
   });
 
-  one.sort((a, b) => a - b);
-  two.sort((a, b) => a - b);
+  return [one.sort((a, b) => a - b), two.sort((a, b) => a - b)];
+}
 
-  return { one, two };
+function calculateSimilarityScore([list1, list2]: [
+  number[],
+  number[]
+]): number {
+  return list1.reduce((total, val) => {
+    const amountInOtherList = countOccurrencesInArray(list2, val);
+    return total + val * amountInOtherList;
+  }, 0);
+}
+
+function countOccurrencesInArray<T>(array: T[], target: T): number {
+  return array.filter((item) => item === target).length;
 }

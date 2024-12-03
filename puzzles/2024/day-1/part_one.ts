@@ -1,9 +1,7 @@
-import { ones } from 'mathjs';
 import { readData, sum } from '../../../lib/shared.ts';
 
 export async function solve(dataPath?: string) {
   const data = await readData(dataPath);
-  console.log();
 
   const lists = parseLists(data);
 
@@ -12,26 +10,21 @@ export async function solve(dataPath?: string) {
   return sum(distances);
 }
 
-function calculateDistances(lists: { one: number[]; two: number[] }): number[] {
-  const distances: number[] = [];
-
-  for (let i = 0; i < lists.one.length; i++) {
-    distances.push(Math.abs(lists.one[i] - lists.two[i]));
-  }
-  return distances;
-}
-
-function parseLists(data: string[]): { one: number[]; two: number[] } {
+function parseLists(data: string[]): [number[], number[]] {
   const one: number[] = [];
   const two: number[] = [];
 
   data.forEach((element) => {
-    one.push(Number.parseInt(element.split('   ')[0].toString().trim()));
-    two.push(Number.parseInt(element.split('   ')[1].toString().trim()));
+    const [first, second] = element
+      .split('   ')
+      .map((part) => Number.parseInt(part.trim()));
+    one.push(first);
+    two.push(second);
   });
 
-  one.sort((a, b) => a - b);
-  two.sort((a, b) => a - b);
+  return [one.sort((a, b) => a - b), two.sort((a, b) => a - b)];
+}
 
-  return { one, two };
+function calculateDistances([list1, list2]: [number[], number[]]): number[] {
+  return list1.map((value, index) => Math.abs(value - list2[index]));
 }
