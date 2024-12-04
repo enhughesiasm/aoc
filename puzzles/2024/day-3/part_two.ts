@@ -20,28 +20,17 @@ function extractValidInstructions(input: string): string[] {
   for (let i = 0; i < input.length; i++) {
     buffer += input[i];
 
-    if (buffer.endsWith('do')) {
-      if (
-        i < input.length - 3 &&
-        input[i + 1] === 'n' &&
-        input[i + 2] === "'" &&
-        input[i + 3] === 't'
-      ) {
-        // console.log(`❌ "${buffer}n't" - disabling`);
-        i += 3;
-        enabled = false;
-        buffer = '';
-      } else {
-        // console.log(`✅ "${buffer}" - enabling`);
-        enabled = true;
-        buffer = '';
-      }
+    if (buffer.endsWith('do()')) {
+      enabled = true;
+      buffer = '';
+    } else if (buffer.endsWith("don't()")) {
+      enabled = false;
+      buffer = '';
     }
 
     const mulInstruction = buffer.match(/mul\(\d+,\d+\)/g);
     if (mulInstruction) {
       if (enabled) {
-        // console.log(`👉 "${buffer}" : ${mulMatch[0]}`);
         results.push(mulInstruction[0]);
       }
       buffer = '';

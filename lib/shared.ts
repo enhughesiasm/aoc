@@ -265,6 +265,17 @@ export const ALL_CARTESIAN_DIRECTIONS: [number, number][] = [
   [1, 0],
 ] as const;
 
+export const ALL_CARTESIAN_DIRECTIONS_WITH_DIAGONAL: [number, number][] = [
+  [-1, 0],
+  [0, 1],
+  [0, -1],
+  [1, 0],
+  [1, 1],
+  [1, -1],
+  [-1, 1],
+  [-1, -1],
+] as const;
+
 export function countFrequency(input: string, targetChar: string) {
   let count = 0;
 

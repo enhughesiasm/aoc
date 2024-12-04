@@ -6,6 +6,7 @@ const answers: [number | string, number | string][] = [
   [1660292, 22776016],
   [371, 426],
   [169021493, 111762583],
+  [2642, 1974],
 ];
 
 describe(`${YEAR}`, () => {
